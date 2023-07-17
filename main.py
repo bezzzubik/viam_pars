@@ -69,14 +69,21 @@ def db_update(config: dict, _sql):
 
 
 def pars_temp(temp):
-    temp = temp.split(',')
-    return temp[0]
+    endStr=len(temp)
+    for i in range(1,len(temp)):
+        if temp[i].isdigit():
+            None
+        else:
+            endStr=i
+            break
+    return temp[:endStr]
 
 
 provider = SQLProvider(os.path.join(os.path.dirname('main.  py'), 'sql'))
 
 conf = json.load(open('configs/sql_config.json'))
 
+'''чтобы консоль за чтение xlsx не выебывалась'''
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=UserWarning)
     df = pandas.read_excel('ТO30_2023_00-2.xlsx')
@@ -90,206 +97,210 @@ with warnings.catch_warnings():
                'granta_mi_text', 'rubbish14', 'transfer_act', 'rubbish15', 'rubbish16', 'rubbish17', 'comment',
                'rubbish18', 'machine_list', 'rubbish18', 'rubbish19', 'rubbish20']
 
-    for i in range(3, 5):    '''строки'''
-    count_col = 0
-    for j in range(cols - 4):
-        if count_col == 0:
-            loc = df.iloc[i]
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 1:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 2:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 3:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 4:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 6:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 8:
-            loc[j] = pars_temp(loc[j])
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 9:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 10:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 11:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 14:
-            if (loc[j] != None) and (type(loc[j]) != str):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 15:
-            if (loc[j] != None) and (type(loc[j]) != str):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 16:
-            if (loc[j] != None) and (type(loc[j]) != str):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 18:
-            if (loc[j] != None) and (type(loc[j]) != str):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 21:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 22:
-            if (loc[j] != None) and (type(loc[j]) != str):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 23:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 31:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 32:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 34:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 38:
-            if (isinstance(loc[j], str)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if count_col == 40:
-            if (isinstance(loc[j], float)):
-                columns[count_col] = loc[j]
-                print(columns[count_col])
-            else:
-                columns[count_col] = None
-        if columns[count_col] is None:
-            columns[count_col] = 'NULL'
-        count_col += 1
+    for i in range(3, 7):
+        count_col = 0
+        for j in range(cols - 4):
+            if count_col == 0:
+                loc = df.iloc[i]
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 1:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 2:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 3:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 4:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 6:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 8:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 9:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 10:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 11:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 14:
+                if (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 15:
+                if (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 16:
+                if (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 18:
+                if (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 21:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 22:
+                if (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 23:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 31:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 32:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 34:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 38:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if count_col == 40:
+                if (isinstance(loc[j], float)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
+            if columns[count_col] is None:
+                columns[count_col] = 'NULL'
+            elif (isinstance(columns[count_col], str)):
+                columns[count_col] = '"' + columns[count_col] + '"'
+            count_col += 1
 
-    print('\n**************\n')
-    m_k = columns[0]
-    theme_contaract = columns[1]
-    customer = columns[2]
-    plan_count_sample = columns[3]
-    intensity_plan = columns[4]
-    fact_count_sample = columns[5]
-    intensity_fact = columns[6]
-    kind_test = columns[7]
-    temperature = columns[8]
-    material = columns[9]
-    transfer_act = columns[34]
-    tester = columns[10]
-    count_tested_samples = columns[11]
-    status = columns[23]
-    report_date = columns[22]
-    recieve_sample_date_plan = columns[14]
-    recieve_sample_date_fact = columns[15]
-    tester_recierve_sample_date = columns[16]
-    test_end_date = columns[18]
-    protocol = columns[21]
-    machine_list = columns[40]
-    comment = columns[38]
-    granta_mi_flag = columns[31]
-    granta_mi_text = columns[32]
-    ex_list = i
-    machine_list = i
+        # print('\n**************\n')
+        m_k = columns[0]
+        theme_contaract = columns[1]
+        customer = columns[2]
+        plan_count_sample = columns[3]
+        intensity_plan = columns[4]
+        fact_count_sample = columns[5]
+        intensity_fact = columns[6]
+        kind_test = columns[7]
+        temperature = columns[8]
+        material = columns[9]
+        transfer_act = columns[34]
+        tester = columns[10]
+        count_tested_samples = columns[11]
+        status = columns[23]
+        report_date = columns[22]
+        recieve_sample_date_plan = columns[14]
+        recieve_sample_date_fact = columns[15]
+        tester_recierve_sample_date = columns[16]
+        test_end_date = columns[18]
+        protocol = columns[21]
+        machine_list = columns[40]
+        comment = columns[38]
+        granta_mi_flag = columns[31]
+        granta_mi_text = columns[32]
+        ex_list = i
+        machine_list = i
 
-    # staff
-    staff_id = work_with_db(conf, provider.get('select_log_staff.sql', fio=tester))
-    if len(staff_id) == 0:
-        work_with_db(conf, provider.get('insert_staff.sql', fio=tester))
+        # staff
+        if tester == 'NULL':
+            tester = '"Неизвестно"'
         staff_id = work_with_db(conf, provider.get('select_log_staff.sql', fio=tester))
-    staff_id = staff_id[0].get('staff_id')
+        if len(staff_id) == 0:
+            work_with_db(conf, provider.get('insert_staff.sql', fio=tester))
+            staff_id = work_with_db(conf, provider.get('select_log_staff.sql', fio=tester))
+        staff_id = staff_id[0].get('staff_id')
+        
 
-    # example_list
-    e_list = work_with_db(conf, provider.get('select_example_list.sql', elist_id=ex_list))
-    if len(e_list) == 0:
-        work_with_db(conf, provider.get('insert_example_list.sql', elist_id=ex_list))
-        e_list = work_with_db(conf, provider.get('select_example_list.sql', elist_id=ex_list))
-    e_list = e_list[0].get('elist_id')
+        # # example_list
+        # e_list = work_with_db(conf, provider.get('select_example_list.sql', elist_id=ex_list))
+        # if len(e_list) == 0:
+        #     work_with_db(conf, provider.get('insert_example_list.sql', elist_id=ex_list))
+        #     e_list = work_with_db(conf, provider.get('select_example_list.sql', elist_id=ex_list))
+        # e_list = e_list[0].get('elist_id')
 
-    # machine_list
-    if len(work_with_db(conf, provider.get('select_machine_list.sql', list_id=machine_list))) == 0:
-        work_with_db(conf, provider.get('insert_machine_list.sql', list_id=machine_list))
+        # # machine_list
+        # if len(work_with_db(conf, provider.get('select_machine_list.sql', list_id=machine_list))) == 0:
+        #     work_with_db(conf, provider.get('insert_machine_list.sql', list_id=machine_list))
 
-    # tests_type
-    type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
-    if len(type_id) == 0:
-        work_with_db(conf, provider.get('insert_tests_types.sql', tname=kind_test))
-        type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
-    type_id = type_id[0].get('type_id')
+        # # tests_type
+        # type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
+        # if len(type_id) == 0:
+        #     work_with_db(conf, provider.get('insert_tests_types.sql', tname=kind_test))
+        #     type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
+        # type_id = type_id[0].get('type_id')
 
-    # cust
-    cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
-    if len(cust_id) == 0:
-        work_with_db(conf, provider.get('insert_customer.sql', cname=customer))
-        cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
-    cust_id = cust_id[0].get('cust_id')
+        # # cust
+        # cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
+        # if len(cust_id) == 0:
+        #     work_with_db(conf, provider.get('insert_customer.sql', cname=customer))
+        #     cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
+        # cust_id = cust_id[0].get('cust_id')
 
 '''        
         work_with_db(conf, provider.get('insert_order.sql', theme_contract=theme_contaract, transfer_act=transfer_act,\
