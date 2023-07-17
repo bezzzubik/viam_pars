@@ -1,0 +1,1 @@
+INSERT into viam.tests_types(name) values("$tname");

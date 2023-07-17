@@ -1,0 +1,3 @@
+INSERT into viam.orders values (NULL, NULL, "$theme_contract", "$transfer_act", "$m_k", $customer, "$plan_count_sample", "$fact_count_sample", "$kind_test",
+                                "$temperature", "$material", "$tester", "$count_tested_sample", "$status", NULL, "$report_date", "$receive_sample_date_plan", "$receive_sample_date_fact", "$tester_receive_sample_date",
+                                "$test_end_date", "$protocol", "$intensity_plan", "$intensity_fact", "$machine_list", "$comment", "$granta_mi_flag", "$granta_mi_text", "$example_list");

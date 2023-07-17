@@ -1,0 +1,1 @@
+INSERT into viam.example_list(elist_id) values($elist_id);

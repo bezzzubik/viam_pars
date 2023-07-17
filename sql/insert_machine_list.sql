@@ -1,0 +1,1 @@
+INSERT into viam.machine_list(list_id) values("$list_id");

@@ -1,0 +1,1 @@
+INSERT into viam.staff(staff_id, FIO) values($st_id,$fio);

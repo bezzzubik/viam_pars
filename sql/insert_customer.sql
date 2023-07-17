@@ -1,0 +1,1 @@
+INSERT into viam.customer(name) values("$cname");
