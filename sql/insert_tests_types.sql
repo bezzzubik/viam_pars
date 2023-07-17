@@ -1,1 +1,1 @@
-INSERT into viam.tests_types(name) values("$tname");
+INSERT into viam.tests_types(name) values($tname);

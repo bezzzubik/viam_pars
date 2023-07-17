@@ -1,2 +1,2 @@
 SELECT type_id FROM viam.tests_types
-WHERE name="$tname";
+WHERE name=$tname;

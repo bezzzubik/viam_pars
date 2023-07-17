@@ -137,6 +137,12 @@ with warnings.catch_warnings():
                     # print(columns[count_col])
                 else:
                     columns[count_col] = None
+            if count_col == 7:
+                if (isinstance(loc[j], str)):
+                    columns[count_col] = loc[j]
+                    # print(columns[count_col])
+                else:
+                    columns[count_col] = None
             if count_col == 8:
                 if (isinstance(loc[j], float)):
                     columns[count_col] = loc[j]
@@ -235,7 +241,7 @@ with warnings.catch_warnings():
                     columns[count_col] = None
             if columns[count_col] is None:
                 columns[count_col] = 'NULL'
-            elif (isinstance(columns[count_col], str)):
+            elif (isinstance(loc[j], str)):
                 columns[count_col] = '"' + columns[count_col] + '"'
             count_col += 1
 
@@ -264,8 +270,10 @@ with warnings.catch_warnings():
         comment = columns[38]
         granta_mi_flag = columns[31]
         granta_mi_text = columns[32]
-        ex_list = i
+        e_list = i
         machine_list = i
+
+        print(kind_test)
 
         # staff
         if tester == 'NULL':
@@ -277,23 +285,21 @@ with warnings.catch_warnings():
         staff_id = staff_id[0].get('staff_id')
         
 
-        # # example_list
-        # e_list = work_with_db(conf, provider.get('select_example_list.sql', elist_id=ex_list))
-        # if len(e_list) == 0:
-        #     work_with_db(conf, provider.get('insert_example_list.sql', elist_id=ex_list))
-        #     e_list = work_with_db(conf, provider.get('select_example_list.sql', elist_id=ex_list))
-        # e_list = e_list[0].get('elist_id')
+        # example_list
+        if len(work_with_db(conf, provider.get('select_example_list.sql', elist_id=e_list))) == 0:
+            work_with_db(conf, provider.get('insert_example_list.sql', elist_id=e_list))
 
-        # # machine_list
-        # if len(work_with_db(conf, provider.get('select_machine_list.sql', list_id=machine_list))) == 0:
-        #     work_with_db(conf, provider.get('insert_machine_list.sql', list_id=machine_list))
+        # machine_list
+        if len(work_with_db(conf, provider.get('select_machine_list.sql', list_id=machine_list))) == 0:
+            work_with_db(conf, provider.get('insert_machine_list.sql', list_id=machine_list))
 
-        # # tests_type
-        # type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
-        # if len(type_id) == 0:
-        #     work_with_db(conf, provider.get('insert_tests_types.sql', tname=kind_test))
-        #     type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
-        # type_id = type_id[0].get('type_id')
+
+        # tests_type
+        type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
+        if len(type_id) == 0:
+            work_with_db(conf, provider.get('insert_tests_types.sql', tname=kind_test))
+            type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
+        type_id = type_id[0].get('type_id')
 
         # # cust
         # cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
