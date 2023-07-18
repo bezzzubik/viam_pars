@@ -97,7 +97,7 @@ with warnings.catch_warnings():
                'granta_mi_text', 'rubbish14', 'transfer_act', 'rubbish15', 'rubbish16', 'rubbish17', 'comment',
                'rubbish18', 'machine_list', 'rubbish18', 'rubbish19', 'rubbish20']
 
-    for i in range(3, 7):
+    for i in range(3, 6):
         count_col = 0
         for j in range(cols - 4):
             if count_col == 0:      #m_k+
@@ -147,106 +147,115 @@ with warnings.catch_warnings():
                 else:
                     columns[count_col] = None
                 # print(columns[count_col])
-            if count_col == 8:
-                if (isinstance(loc[j], float)):
+            if count_col == 8:      #temperature+
+                if (isinstance(loc[j], int)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
+                elif (isinstance(loc[j], str)):
+                    columns[count_col] = pars_temp(loc[j])
                 else:
-                    columns[count_col] = None
-            if count_col == 9:
+                   columns[count_col] = None
+                # print(columns[count_col])
+            if count_col == 9:      #material+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 10:
+                # print(columns[count_col])
+            if count_col == 10:     #tester+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 11:
-                if (isinstance(loc[j], float)):
+                # print(columns[count_col])
+            if count_col == 11:     #count_tested_sample+
+                if (isinstance(loc[j], int)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 14:
-                if (loc[j] != None) and (type(loc[j]) != str):
-                    columns[count_col] = loc[j]
-                    # print(columns[count_col])
+                # print(columns[count_col])
+            if count_col == 14:     #receive_sample_date_plan+
+                if (isinstance(loc[j], float) or isinstance(loc[j], str)):
+                    columns[count_col] = None
+                elif (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = str(loc[j])[:10]
+                # print(columns[count_col])
+            if count_col == 15:     #receive_sample_date_fact+
+                if (isinstance(loc[j], float) or isinstance(loc[j], str)):
+                    columns[count_col] = None
+                elif (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = str(loc[j])[:10]
+                # print(columns[count_col])
+            if count_col == 16:     #tester_recierve_sample_date+
+                if (isinstance(loc[j], float) or isinstance(loc[j], str)):
+                    columns[count_col] = None
+                elif (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = str(loc[j])[:10]
+                # print(columns[count_col])
+            if count_col == 19:     #test_end_date+
+                if (isinstance(loc[j], float) or isinstance(loc[j], str)):
+                    columns[count_col] = None
+                elif (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = str(loc[j])[:10]
                 else:
                     columns[count_col] = None
-            if count_col == 15:
-                if (loc[j] != None) and (type(loc[j]) != str):
-                    columns[count_col] = loc[j]
-                    # print(columns[count_col])
-                else:
-                    columns[count_col] = None
-            if count_col == 16:
-                if (loc[j] != None) and (type(loc[j]) != str):
-                    columns[count_col] = loc[j]
-                    # print(columns[count_col])
-                else:
-                    columns[count_col] = None
-            if count_col == 18:
-                if (loc[j] != None) and (type(loc[j]) != str):
-                    columns[count_col] = loc[j]
-                    # print(columns[count_col])
-                else:
-                    columns[count_col] = None
-            if count_col == 21:
+
+                # print(columns[count_col])
+            if count_col == 21:     #protocol+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 22:
-                if (loc[j] != None) and (type(loc[j]) != str):
-                    columns[count_col] = loc[j]
-                    # print(columns[count_col])
+                # print(columns[count_col])
+            if count_col == 22:     #report_date+
+                if (isinstance(loc[j], float) or isinstance(loc[j], str)):
+                    columns[count_col] = None
+                elif (loc[j] != None) and (type(loc[j]) != str):
+                    columns[count_col] = str(loc[j])[:10]
                 else:
                     columns[count_col] = None
-            if count_col == 23:
+                # print(columns[count_col])
+            if count_col == 23:     #status+(либо 23(текущий статус протокола исп1) либо 33(статус протокола)))
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 31:
-                if (isinstance(loc[j], float)):
-                    columns[count_col] = loc[j]
-                    # print(columns[count_col])
+                # print(columns[count_col])
+            if count_col == 31:     #granta_mi_flag+
+                if (loc[j]=='-'):
+                    columns[count_col]=0
+                elif (loc[j]=='+'):
+                    columns[count_col]=1
                 else:
                     columns[count_col] = None
-            if count_col == 32:
+                # print(columns[count_col])
+            if count_col == 32:     #granta_mi_text+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 34:
+                # print(columns[count_col])
+            if count_col == 34:     #transfer_act+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 38:
+                # print(columns[count_col])
+            if count_col == 38:     #comment+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 40:
-                if (isinstance(loc[j], float)):
+                # print(columns[count_col])
+            if count_col == 40:     #machine_list+
+                if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
+                # print(columns[count_col])
             if columns[count_col] is None:
                 columns[count_col] = 'NULL'
-            elif (isinstance(loc[j], str)):
-                columns[count_col] = '"' + columns[count_col] + '"'
+            else:
+                columns[count_col] = '"' + str(columns[count_col]) + '"'
             count_col += 1
 
         # print('\n**************\n')
@@ -268,14 +277,14 @@ with warnings.catch_warnings():
         recieve_sample_date_plan = columns[14]
         recieve_sample_date_fact = columns[15]
         tester_recierve_sample_date = columns[16]
-        test_end_date = columns[18]
+        test_end_date = columns[19]
         protocol = columns[21]
         machine_list = columns[40]
         comment = columns[38]
         granta_mi_flag = columns[31]
         granta_mi_text = columns[32]
-        e_list = i
-        machine_list = i
+        e_list = 1
+        machine_list = 1
 
         # staff
         if tester == 'NULL':
@@ -285,7 +294,6 @@ with warnings.catch_warnings():
             work_with_db(conf, provider.get('insert_staff.sql', fio=tester))
             staff_id = work_with_db(conf, provider.get('select_log_staff.sql', fio=tester))
         staff_id = staff_id[0].get('staff_id')
-        
 
         # example_list
         if len(work_with_db(conf, provider.get('select_example_list.sql', elist_id=e_list))) == 0:
@@ -304,8 +312,7 @@ with warnings.catch_warnings():
             work_with_db(conf, provider.get('insert_tests_types.sql', tname=kind_test))
             type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
         type_id = type_id[0].get('type_id')
-        print(type(type_id))
-        print(type_id)
+
 
         # cust
         if customer == 'NULL':
@@ -316,14 +323,14 @@ with warnings.catch_warnings():
             cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
         cust_id = cust_id[0].get('cust_id')
 
-        # work_with_db(conf, provider.get('insert_order.sql', m_k=m_k, theme_contract=theme_contaract, transfer_act=transfer_act,\
-        #                                 customer=cust_id, plan_count_sample=plan_count_sample, fact_count_sample=fact_count_sample,\
-        #                                 kind_test=type_id, temperature=temperature, material=material, tester=staff_id,\
-        #                                 count_tested_sample=count_tested_samples, status=status, report_date=report_date,\
-        #                                 receive_sample_date_plan=recieve_sample_date_plan, receive_sample_date_fact=recieve_sample_date_fact,\
-        #                                 tester_receive_sample_date=tester_recierve_sample_date, test_end_date=test_end_date, protocol=protocol,\
-        #                                 intensity_plan=intensity_plan, intensity_fact=intensity_fact, machine_list=machine_list,\
-        #                                 comment=comment, granta_mi_flag=granta_mi_flag, granta_mi_text=granta_mi_text, example_list=e_list))
+        work_with_db(conf, provider.get('insert_order.sql', m_k=m_k, theme_contract=theme_contaract, transfer_act=transfer_act,\
+                                        customer=cust_id, plan_count_sample=plan_count_sample, fact_count_sample=fact_count_sample,\
+                                        kind_test=type_id, temperature=temperature, material=material, tester=staff_id,\
+                                        count_tested_sample=count_tested_samples, status=status, report_date=report_date,\
+                                        receive_sample_date_plan=recieve_sample_date_plan, receive_sample_date_fact=recieve_sample_date_fact,\
+                                        tester_receive_sample_date=tester_recierve_sample_date, test_end_date=test_end_date, protocol=protocol,\
+                                        intensity_plan=intensity_plan, intensity_fact=intensity_fact, machine_list=machine_list,\
+                                        comment=comment, granta_mi_flag=granta_mi_flag, granta_mi_text=granta_mi_text, example_list=e_list))
 
 #
 # # work_with_db(conf, provider.get('insert_staff.sql', fio="ai", role="t", log="log", pas="pas"))
