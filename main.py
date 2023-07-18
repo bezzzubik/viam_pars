@@ -99,7 +99,9 @@ with warnings.catch_warnings():
 
     for i in range(3, 6):
         count_col = 0
+        flag_null=True
         for j in range(cols - 4):
+            columns[count_col]=None
             if count_col == 0:      #m_k+
                 loc = df.iloc[i]
                 if (isinstance(loc[j], str)):
@@ -178,18 +180,24 @@ with warnings.catch_warnings():
                     columns[count_col] = None
                 elif (loc[j] != None) and (type(loc[j]) != str):
                     columns[count_col] = str(loc[j])[:10]
+                else:
+                     columns[count_col] = None
                 # print(columns[count_col])
             if count_col == 15:     #receive_sample_date_fact+
                 if (isinstance(loc[j], float) or isinstance(loc[j], str)):
                     columns[count_col] = None
                 elif (loc[j] != None) and (type(loc[j]) != str):
                     columns[count_col] = str(loc[j])[:10]
+                else:
+                     columns[count_col] = None
                 # print(columns[count_col])
             if count_col == 16:     #tester_recierve_sample_date+
                 if (isinstance(loc[j], float) or isinstance(loc[j], str)):
                     columns[count_col] = None
                 elif (loc[j] != None) and (type(loc[j]) != str):
                     columns[count_col] = str(loc[j])[:10]
+                else:
+                     columns[count_col] = None
                 # print(columns[count_col])
             if count_col == 19:     #test_end_date+
                 if (isinstance(loc[j], float) or isinstance(loc[j], str)):
@@ -198,7 +206,6 @@ with warnings.catch_warnings():
                     columns[count_col] = str(loc[j])[:10]
                 else:
                     columns[count_col] = None
-
                 # print(columns[count_col])
             if count_col == 21:     #protocol+
                 if (isinstance(loc[j], str)):
@@ -256,8 +263,10 @@ with warnings.catch_warnings():
                 columns[count_col] = 'NULL'
             else:
                 columns[count_col] = '"' + str(columns[count_col]) + '"'
+                flag_null=False
             count_col += 1
-
+        if(flag_null):
+            continue
         # print('\n**************\n')
         m_k = columns[0]
         theme_contaract = columns[1]
