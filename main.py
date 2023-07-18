@@ -100,49 +100,53 @@ with warnings.catch_warnings():
     for i in range(3, 7):
         count_col = 0
         for j in range(cols - 4):
-            if count_col == 0:
+            if count_col == 0:      #m_k+
                 loc = df.iloc[i]
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
                     # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 1:
+            if count_col == 1:      #theme+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
                     # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 2:
-                if (isinstance(loc[j], float)):
+            if count_col == 2:      #customer+
+                loc[j]=str(loc[j])
+                if (loc[j]!='nan'):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 3:
-                if (isinstance(loc[j], float)):
+            if count_col == 3:      #plan_count_sample+
+                if (isinstance(loc[j], int)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 4:
-                if (isinstance(loc[j], float)):
+            if count_col == 4:      #instensity_plan+(проверить есть ли float там)
+                if (isinstance(loc[j], int)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 6:
-                if (isinstance(loc[j], float)):
+            if count_col == 5:      #fact_count_sample+
+                if (isinstance(loc[j], int)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
-            if count_col == 7:
+                # print(columns[count_col])
+            if count_col == 6:      #instensity_fact+(так же проверить)
+                if (isinstance(loc[j], int)):
+                    columns[count_col] = loc[j]
+                else:
+                    columns[count_col] = None
+                # print(columns[count_col])
+            if count_col == 7:      #name_test_type+
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
-                    # print(columns[count_col])
                 else:
                     columns[count_col] = None
+                # print(columns[count_col])
             if count_col == 8:
                 if (isinstance(loc[j], float)):
                     columns[count_col] = loc[j]
@@ -273,8 +277,6 @@ with warnings.catch_warnings():
         e_list = i
         machine_list = i
 
-        print(kind_test)
-
         # staff
         if tester == 'NULL':
             tester = '"Неизвестно"'
@@ -295,28 +297,33 @@ with warnings.catch_warnings():
 
 
         # tests_type
+        if kind_test == 'NULL':
+            kind_test = '"Неизвестно"'
         type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
         if len(type_id) == 0:
             work_with_db(conf, provider.get('insert_tests_types.sql', tname=kind_test))
             type_id = work_with_db(conf, provider.get('select_type_id_tests_type.sql', tname=kind_test))
         type_id = type_id[0].get('type_id')
+        print(type(type_id))
+        print(type_id)
 
-        # # cust
-        # cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
-        # if len(cust_id) == 0:
-        #     work_with_db(conf, provider.get('insert_customer.sql', cname=customer))
-        #     cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
-        # cust_id = cust_id[0].get('cust_id')
+        # cust
+        if customer == 'NULL':
+            customer = '"Неизвестно"'
+        cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
+        if len(cust_id) == 0:
+            work_with_db(conf, provider.get('insert_customer.sql', cname=customer))
+            cust_id = work_with_db(conf, provider.get('select_cust_id_customer.sql', cname=customer))
+        cust_id = cust_id[0].get('cust_id')
 
-'''        
-        work_with_db(conf, provider.get('insert_order.sql', theme_contract=theme_contaract, transfer_act=transfer_act,\
-                                        m_k=m_k, customer=int(cust_id), plan_count_sample=plan_count_sample, fact_count_sample=fact_count_sample,\
-                                        kind_test=type_id, temperature=temperature, material=material, tester=staff_id,\
-                                        count_tested_sample=count_tested_samples, status=status, report_date=report_date,\
-                                        receive_sample_date_plan=recieve_sample_date_plan, receive_sample_date_fact=recieve_sample_date_fact,\
-                                        tester_receive_sample_date=tester_recierve_sample_date, test_end_date=test_end_date, protocol=protocol,\
-                                        intensity_plan=intensity_plan, intensity_fact=intensity_fact, machine_list=machine_list,\
-                                        comment=comment, granta_mi_flag=granta_mi_flag, granta_mi_text=granta_mi_text, example_list=e_list))
-'''
+        # work_with_db(conf, provider.get('insert_order.sql', m_k=m_k, theme_contract=theme_contaract, transfer_act=transfer_act,\
+        #                                 customer=cust_id, plan_count_sample=plan_count_sample, fact_count_sample=fact_count_sample,\
+        #                                 kind_test=type_id, temperature=temperature, material=material, tester=staff_id,\
+        #                                 count_tested_sample=count_tested_samples, status=status, report_date=report_date,\
+        #                                 receive_sample_date_plan=recieve_sample_date_plan, receive_sample_date_fact=recieve_sample_date_fact,\
+        #                                 tester_receive_sample_date=tester_recierve_sample_date, test_end_date=test_end_date, protocol=protocol,\
+        #                                 intensity_plan=intensity_plan, intensity_fact=intensity_fact, machine_list=machine_list,\
+        #                                 comment=comment, granta_mi_flag=granta_mi_flag, granta_mi_text=granta_mi_text, example_list=e_list))
+
 #
 # # work_with_db(conf, provider.get('insert_staff.sql', fio="ai", role="t", log="log", pas="pas"))
