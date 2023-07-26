@@ -81,7 +81,19 @@ sheet['A1'] = 'Неделя'
 sheet['B1'] = 'Накопившиеся полученные образцы'
 sheet['D1'] = 'Испытанные образцы за неделю'
 sheet['C1'] = 'Накопившиеся испытанные образцы'
-
+mon={1:'январь',
+     2:'февраль',
+     3:'март',
+     4:'апрель',
+     5:'май',
+     6:'июнь',
+     7:'июль',
+     8:'август',
+     9:'сентябрь',
+     10:'октябрь',
+     11:'ноябрь',
+     12:'декабрь'}
+j=0
 
 weeks = work_with_db(conf, provider.get('select_min_max_week.sql'))
 minW=weeks[0]['min']
@@ -93,16 +105,25 @@ weeks=[]
 for i in range(minW, maxW+1):
     countI = work_with_db(conf, provider.get('select_sum_factIn.sql', weekS=i))
     countE = work_with_db(conf, provider.get('select_sum_factEnd.sql', weekS=i))
+    monNow = work_with_db(conf, provider.get('select_min_week_in_month.sql', mn=j+1))
+
     countI = countI[0]['factIn']
     countE = countE[0]['factEnd']
+    monNow = monNow[0]['mdat']
+
     if countI is None:
         countI = 0    
-    if (countE is None):
+    if countE is None:
         countE = 0
     sumIn += countI
     sumEnd += countE
     print(i)
-    sheet.cell(row = 2+i-minW, column=1).value=i
+    if monNow == i:
+        j+=1
+        wk=mon[j]
+    else:
+        wk=i
+    sheet.cell(row = 2+i-minW, column=1).value=wk
     sheet.cell(row = 2+i-minW, column=2).value=sumIn
     sheet.cell(row = 2+i-minW, column=3).value=sumEnd
     sheet.cell(row = 2+i-minW, column=4).value=countE
@@ -116,15 +137,26 @@ chartBar = LineChart()
 chartBar.y_axis.title='Кол-во образцов'
 chartBar.x_axis.title='Номер недели'
 chartBar.title = 'Графики'
-chartBar.width = 10
-chartBar.width = 30
+chartBar.style = 12
+chartBar.width = 35
+chartBar.height = 20
 
-dataBar = Reference(sheet, min_col=2, min_row=1, max_col=2, max_row=maxW+1)
-dataBar2 = Reference(sheet, min_col=3, min_row=1, max_col=3, max_row=maxW+1)
-dataX = Reference(sheet, min_col=1, min_row=2, max_col=1, max_row=maxW+1)
+dataBar = Reference(sheet, min_col=2, min_row=1, max_col=4, max_row=maxW)
+dataX = Reference(sheet, min_col=1, min_row=2, max_col=1, max_row=maxW)
 
 chartBar.add_data(dataBar, titles_from_data=True)
-chartBar.add_data(dataBar2, titles_from_data=True)
+chartBar.smooth = True
 chartBar.set_categories(dataX)
+s1=chartBar.series[1]
+s1.graphicalProperties.line.solidFill = "008000"
+
+
+
+s3=chartBar.series[2]
+s3.graphicalProperties.line.solidFill = "00AAAA"
+s3.graphicalProperties.line.dashStyle = "sysDot"
+s3.graphicalProperties.line.width = 100050 # width in EMUs
+
+
 sheet.add_chart(chartBar, 'G2')
 wb.save('График.xlsx')
