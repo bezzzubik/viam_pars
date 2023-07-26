@@ -86,7 +86,7 @@ conf = json.load(open('configs/sql_config.json'))
 '''чтобы консоль за чтение xlsx не выебывалась'''
 with warnings.catch_warnings():
     warnings.filterwarnings("ignore", category=UserWarning)
-    df = pandas.read_excel('ТO30_2023_00-2.xlsx')
+    df = pandas.read_excel('ТO30_2023_00.xlsx')
     rows = len(df.axes[0])
     cols = len(df.axes[1])
     columns = ['m_k', 'theme_contaract', 'customer', 'plan_count_sample', 'intensity_plan', 'rubbish1',
@@ -97,10 +97,10 @@ with warnings.catch_warnings():
                'granta_mi_text', 'rubbish14', 'transfer_act', 'rubbish15', 'rubbish16', 'rubbish17', 'comment',
                'rubbish18', 'machine_list', 'rubbish18', 'rubbish19', 'rubbish20']
 
-    for i in range(3, 6):
+    for i in range(354, 355):
         count_col = 0
         flag_null=True
-        for j in range(cols - 4):
+        for j in range(43):
             columns[count_col]=None
             if count_col == 0:      #m_k+
                 loc = df.iloc[i]
@@ -221,7 +221,7 @@ with warnings.catch_warnings():
                 else:
                     columns[count_col] = None
                 # print(columns[count_col])
-            if count_col == 23:     #status+(либо 23(текущий статус протокола исп1) либо 33(статус протокола)))
+            if count_col == 33:     #status+(либо 23(текущий статус протокола исп1) либо 33(статус протокола)))
                 if (isinstance(loc[j], str)):
                     columns[count_col] = loc[j]
                 else:
@@ -281,7 +281,7 @@ with warnings.catch_warnings():
         transfer_act = columns[34]
         tester = columns[10]
         count_tested_samples = columns[11]
-        status = columns[23]
+        status = columns[33]
         report_date = columns[22]
         recieve_sample_date_plan = columns[14]
         recieve_sample_date_fact = columns[15]
